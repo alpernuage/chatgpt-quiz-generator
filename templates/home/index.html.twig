@@ -1,0 +1,8 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Creer un quiz{% endblock %}
+
+{% block body %}
+    <div {{ react_component('CreateQuiz') }}></div>
+    <div {{ react_component('CreateQuiz', { 'fullName': 'alp' }) }}></div>
+{% endblock %}
