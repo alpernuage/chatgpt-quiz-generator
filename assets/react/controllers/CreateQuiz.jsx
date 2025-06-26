@@ -7,7 +7,6 @@ export default function CreateQuiz() {
 
         const formData = new FormData(e.target);
         const content = formData.get('content');
-        console.log(content);
 
         const response = await fetch('/quizzes', {
             method: 'POST',
@@ -17,8 +16,9 @@ export default function CreateQuiz() {
             },
         });
 
-        const data = await response.json();
-        console.log(data);
+        const json = await response.json();
+
+        // window.location.href = `/quizzes/`;
     }
 
     return (

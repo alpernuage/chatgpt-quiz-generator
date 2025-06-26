@@ -30,10 +30,11 @@ class Quiz
     #[ORM\OneToMany(targetEntity: QuizResult::class, mappedBy: 'quiz')]
     private Collection $quizResults;
 
-    public function __construct()
+    public function __construct(?string $title = null)
     {
         $this->questions = new ArrayCollection();
         $this->quizResults = new ArrayCollection();
+        $this->title = $title;
     }
 
     public function getId(): ?int

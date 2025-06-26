@@ -17,11 +17,16 @@ class Answer
     #[ORM\JoinColumn(nullable: false)]
     private ?Question $question = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $title = null;
+
     #[ORM\Column]
     private ?bool $isCorrect = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $title = null;
+    public function __construct(?string $title = null)
+    {
+        $this->title = $title;
+    }
 
     public function getId(): ?int
     {

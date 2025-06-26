@@ -28,11 +28,11 @@ class Question
     #[ORM\OneToMany(targetEntity: Answer::class, mappedBy: 'question')]
     private Collection $answers;
 
-    public function __construct()
+    public function __construct(?string $title = null)
     {
         $this->answers = new ArrayCollection();
+        $this->title = $title;
     }
-
     public function getId(): ?int
     {
         return $this->id;
