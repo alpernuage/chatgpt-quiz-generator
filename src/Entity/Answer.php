@@ -12,7 +12,7 @@ class Answer
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['quiz:read'])]
+    #[Groups(['quiz:read', 'quizResult:read'])]
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'answers')]
@@ -20,10 +20,11 @@ class Answer
     private ?Question $question = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['quiz:read'])]
+    #[Groups(['quiz:read', 'quizResult:read'])]
     private ?string $title = null;
 
     #[ORM\Column]
+    #[Groups(['quizResult:read'])]
     private ?bool $isCorrect = null;
 
     public function __construct(?string $title = null)

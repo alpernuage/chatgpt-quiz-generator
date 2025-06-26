@@ -14,7 +14,7 @@ class Question
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['quiz:read'])]
+    #[Groups(['quiz:read', 'quizResult:read'])]
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'questions')]
@@ -22,14 +22,14 @@ class Question
     private ?Quiz $quiz = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['quiz:read'])]
+    #[Groups(['quiz:read', 'quizResult:read'])]
     private ?string $title = null;
 
     /**
      * @var Collection<int, Answer>
      */
     #[ORM\OneToMany(targetEntity: Answer::class, mappedBy: 'question')]
-    #[Groups(['quiz:read'])]
+    #[Groups(['quiz:read', 'quizResult:read'])]
     private Collection $answers;
 
     public function __construct(?string $title = null)

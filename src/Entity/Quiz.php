@@ -18,14 +18,14 @@ class Quiz
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['quiz:read'])]
+    #[Groups(['quiz:read', 'quizResult:read'])]
     private ?string $title = null;
 
     /**
      * @var Collection<int, Question>
      */
     #[ORM\OneToMany(targetEntity: Question::class, mappedBy: 'quiz')]
-    #[Groups(['quiz:read'])]
+    #[Groups(['quiz:read', 'quizResult:read'])]
     private Collection $questions;
 
     /**
