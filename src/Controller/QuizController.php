@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Quiz;
+use App\Service\QuizResultService;
 use App\Service\QuizService;
 use OpenAI\Client;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,8 +15,39 @@ final class QuizController extends AbstractController
 {
     public function __construct(
         private readonly QuizService $quizService,
+        private readonly QuizResultService $quizResultService
     )
     {
+    }
+
+    #[Route('/quizzes/{id}', name: 'app_quiz_show', methods: ['GET', 'POST'])]
+    public function show(?Quiz $quiz, Request $request): Response
+    {
+        if (!$quiz) {
+            return $this->redirectToRoute('app_home');
+        }
+
+        if($request->isXmlHttpRequest() && $request->isMethod(Request::METHOD_POST)) {
+            $body = json_decode($request->getContent(), true);
+
+            if(!isset($body['quizResult'])) {
+                return $this->json([
+                    'error' => 'Missing quizResult'
+                ]);
+            }
+
+            $quizResult = $this->quizResultService->add($quiz, $body['quizResult']);
+
+            return $this->json([
+                'quizResult' => [
+                    'id' => $quizResult->getId()
+                ]
+            ]);
+        }
+
+        return $this->render('quiz/show.html.twig', [
+            'quiz' => $quiz,
+        ]);
     }
 
     #[Route('/quizzes', name: 'app_quizzes_add', methods: ['POST'])]

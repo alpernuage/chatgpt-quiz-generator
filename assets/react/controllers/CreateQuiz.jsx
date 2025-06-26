@@ -1,9 +1,13 @@
 import React from 'react';
-import {Button, Card, Container, Grid, TextField, Typography} from "@mui/material";
+import {Button, Card, CircularProgress, Container, Grid, TextField, Typography} from "@mui/material";
 
 export default function CreateQuiz() {
+    const [generating, setGenerating] = React.useState(false);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        setGenerating(true);
 
         const formData = new FormData(e.target);
         const content = formData.get('content');
@@ -16,9 +20,11 @@ export default function CreateQuiz() {
             },
         });
 
+        setGenerating(false);
+
         const json = await response.json();
 
-        // window.location.href = `/quizzes/`;
+        window.location.href = `/quizzes/${json.quiz.id}`;
     }
 
     return (
@@ -31,8 +37,12 @@ export default function CreateQuiz() {
                     <Card style={{ padding: 15 }} variant="outlined">
                         <form onSubmit={handleSubmit}>
                             <TextField fullWidth label="Générer un quiz"  name="content" />
-                            <Button fullWidth style={{ marginTop: 20 }} type="submit" variant="contained">Générer</Button>
-                        </form>
+                            <Button disabled={generating} fullWidth style={{ marginTop: 20 }} type="submit" variant="contained">
+                                { generating
+                                    ? <CircularProgress color="secondary" />
+                                    : 'Générer'
+                                }
+                            </Button>                        </form>
                     </Card>
                 </Grid>
             </Grid>

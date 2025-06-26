@@ -18,7 +18,13 @@ class QuizResult
     private ?Quiz $quiz = null;
 
     #[ORM\Column]
-    private array $result = [];
+    private array $results = [];
+
+    public function __construct(Quiz $quiz, array $results)
+    {
+        $this->quiz = $quiz;
+        $this->results = $results;
+    }
 
     public function getId(): ?int
     {
@@ -37,14 +43,14 @@ class QuizResult
         return $this;
     }
 
-    public function getResult(): array
+    public function getResults(): array
     {
-        return $this->result;
+        return $this->results;
     }
 
-    public function setResult(array $result): static
+    public function setResults(array $results): static
     {
-        $this->result = $result;
+        $this->results = $results;
 
         return $this;
     }
