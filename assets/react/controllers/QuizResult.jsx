@@ -15,7 +15,7 @@ import {
 
 export default function QuizResult(props) {
     const quizResult = JSON.parse(props.quizResult);
-    console.log(quizResult);
+
     const getAnswerTitle = (result) => {
         return quizResult.quiz.questions
             .find(x => x.id === result.questionId).answers

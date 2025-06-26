@@ -4,7 +4,7 @@ namespace App\Entity;
 
 use App\Repository\AnswerRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Serializer\Attribute\Groups;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: AnswerRepository::class)]
 class Answer
@@ -27,7 +27,7 @@ class Answer
     #[Groups(['quizResult:read'])]
     private ?bool $isCorrect = null;
 
-    public function __construct(?string $title = null)
+    public function __construct(string $title)
     {
         $this->title = $title;
     }
@@ -42,21 +42,9 @@ class Answer
         return $this->question;
     }
 
-    public function setQuestion(?Question $question): static
+    public function setQuestion(?Question $question): self
     {
         $this->question = $question;
-
-        return $this;
-    }
-
-    public function isCorrect(): ?bool
-    {
-        return $this->isCorrect;
-    }
-
-    public function setIsCorrect(bool $isCorrect): static
-    {
-        $this->isCorrect = $isCorrect;
 
         return $this;
     }
@@ -66,9 +54,21 @@ class Answer
         return $this->title;
     }
 
-    public function setTitle(string $title): static
+    public function setTitle(string $title): self
     {
         $this->title = $title;
+
+        return $this;
+    }
+
+    public function isIsCorrect(): ?bool
+    {
+        return $this->isCorrect;
+    }
+
+    public function setIsCorrect(bool $isCorrect): self
+    {
+        $this->isCorrect = $isCorrect;
 
         return $this;
     }

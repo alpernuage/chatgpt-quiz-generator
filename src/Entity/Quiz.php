@@ -6,7 +6,7 @@ use App\Repository\QuizRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Serializer\Attribute\Groups;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: QuizRepository::class)]
 class Quiz
@@ -14,31 +14,25 @@ class Quiz
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['quiz:read'])]
+    #[Groups(['quiz:list', 'quiz:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['quiz:read', 'quizResult:read'])]
+    #[Groups(['quiz:list', 'quiz:read', 'quizResult:read'])]
     private ?string $title = null;
 
-    /**
-     * @var Collection<int, Question>
-     */
-    #[ORM\OneToMany(targetEntity: Question::class, mappedBy: 'quiz')]
+    #[ORM\OneToMany(mappedBy: 'quiz', targetEntity: Question::class)]
     #[Groups(['quiz:read', 'quizResult:read'])]
     private Collection $questions;
 
-    /**
-     * @var Collection<int, QuizResult>
-     */
-    #[ORM\OneToMany(targetEntity: QuizResult::class, mappedBy: 'quiz')]
+    #[ORM\OneToMany(mappedBy: 'quiz', targetEntity: QuizResult::class)]
     private Collection $quizResults;
 
-    public function __construct(?string $title = null)
+    public function __construct(string $title)
     {
         $this->questions = new ArrayCollection();
-        $this->quizResults = new ArrayCollection();
         $this->title = $title;
+        $this->quizResults = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -51,7 +45,7 @@ class Quiz
         return $this->title;
     }
 
-    public function setTitle(string $title): static
+    public function setTitle(string $title): self
     {
         $this->title = $title;
 
@@ -66,7 +60,7 @@ class Quiz
         return $this->questions;
     }
 
-    public function addQuestion(Question $question): static
+    public function addQuestion(Question $question): self
     {
         if (!$this->questions->contains($question)) {
             $this->questions->add($question);
@@ -76,7 +70,7 @@ class Quiz
         return $this;
     }
 
-    public function removeQuestion(Question $question): static
+    public function removeQuestion(Question $question): self
     {
         if ($this->questions->removeElement($question)) {
             // set the owning side to null (unless already changed)
@@ -96,7 +90,7 @@ class Quiz
         return $this->quizResults;
     }
 
-    public function addQuizResult(QuizResult $quizResult): static
+    public function addQuizResult(QuizResult $quizResult): self
     {
         if (!$this->quizResults->contains($quizResult)) {
             $this->quizResults->add($quizResult);
@@ -106,7 +100,7 @@ class Quiz
         return $this;
     }
 
-    public function removeQuizResult(QuizResult $quizResult): static
+    public function removeQuizResult(QuizResult $quizResult): self
     {
         if ($this->quizResults->removeElement($quizResult)) {
             // set the owning side to null (unless already changed)

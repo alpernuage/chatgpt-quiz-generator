@@ -1,37 +1,46 @@
 import React from 'react';
 import {Button, Card, CircularProgress, Container, Grid, TextField, Typography} from "@mui/material";
 
-export default function CreateQuiz() {
+export default function CreateQuiz () {
     const [generating, setGenerating] = React.useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        setGenerating(true);
-
         const formData = new FormData(e.target);
         const content = formData.get('content');
 
+        if(0 === content.trim().length) {
+            return;
+        }
+
+        setGenerating(true);
+
         const response = await fetch('/quizzes', {
+            body: JSON.stringify({ content: content }),
             method: 'POST',
-            body: JSON.stringify({ content }),
             headers: {
                 'X-Requested-With': 'XMLHttpRequest'
-            },
+            }
         });
 
-        setGenerating(false);
-
         const json = await response.json();
+
+        setGenerating(false);
 
         window.location.href = `/quizzes/${json.quiz.id}`;
     }
 
     return (
         <Container maxWidth="sm">
-            <Grid container direction="row" justifyContent="center" alignItems="center">
+            <Grid container
+                  direction="row"
+                  justifyContent="center"
+                  alignItems="center">
                 <Grid item>
-                    <Typography fontWeight="bold" component="h2" variant="h2" marginY={5}>Make My Quiz</Typography>
+                    <Typography fontWeight="bold" component="h2" variant="h2" textAlign="center" marginY={5}>
+                        Make My Quiz
+                    </Typography>
                 </Grid>
                 <Grid item>
                     <Card style={{ padding: 15 }} variant="outlined">
@@ -42,7 +51,8 @@ export default function CreateQuiz() {
                                     ? <CircularProgress color="secondary" />
                                     : 'Générer'
                                 }
-                            </Button>                        </form>
+                            </Button>
+                        </form>
                     </Card>
                 </Grid>
             </Grid>

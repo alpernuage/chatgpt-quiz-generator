@@ -8,7 +8,8 @@ use App\Entity\Quiz;
 use App\Repository\QuizRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
-class QuizService{
+class QuizService
+{
     public function __construct(
         private EntityManagerInterface $em,
         private QuizRepository $quizRepo
@@ -22,9 +23,11 @@ class QuizService{
 
         foreach ($quizData['questions'] as $questionData) {
             $answers = $questionData['answers'];
+            $correctAnswer = $questionData['answer'];
 
             $question = new Question($questionData['question']);
-            $correctAnswer = $questionData['answer'];
+
+            $quiz->addQuestion($question);
 
             $this->em->persist($question);
 
@@ -36,12 +39,18 @@ class QuizService{
 
                 $this->em->persist($answer);
             }
-
-            $quiz->addQuestion($question);
         }
 
         $this->quizRepo->save($quiz, true);
 
         return $quiz;
+    }
+
+    /**
+     * @return Quiz[]
+     */
+    public function findLastGeneratedQuizzes(): array
+    {
+        return $this->quizRepo->findBy([], limit: 3);
     }
 }

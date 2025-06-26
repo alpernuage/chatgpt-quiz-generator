@@ -7,19 +7,15 @@ namespace DoctrineMigrations;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
-/**
- * Auto-generated Migration: Please modify to your needs!
- */
 final class Version20250626074001 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return '';
+        return 'Create quiz_generator database tables';
     }
 
     public function up(Schema $schema): void
     {
-        // this up() migration is auto-generated, please modify it to your needs
         $this->addSql(<<<'SQL'
             CREATE TABLE answer (id INT AUTO_INCREMENT NOT NULL, question_id INT NOT NULL, is_correct TINYINT(1) NOT NULL, title VARCHAR(255) NOT NULL, INDEX IDX_DADD4A251E27F6BF (question_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB
         SQL);
@@ -48,7 +44,6 @@ final class Version20250626074001 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
-        // this down() migration is auto-generated, please modify it to your needs
         $this->addSql(<<<'SQL'
             ALTER TABLE answer DROP FOREIGN KEY FK_DADD4A251E27F6BF
         SQL);

@@ -1,4 +1,3 @@
-// import { startStimulusApp } from '@symfony/stimulus-bundle';
 import { startStimulusApp } from '@symfony/stimulus-bridge';
 
 export const app = startStimulusApp(require.context(
@@ -6,11 +5,3 @@ export const app = startStimulusApp(require.context(
     true,
     /\.(j|t)sx?$/
 ));
-// import { Application } from '@hotwired/stimulus';
-
-// const app = startStimulusApp();
-// register any custom, 3rd party controllers here
-// app.register('some_controller_name', SomeImportedController);
-// const application = Application.start();
-
-// export { application };

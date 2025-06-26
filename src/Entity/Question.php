@@ -6,7 +6,7 @@ use App\Repository\QuestionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Serializer\Attribute\Groups;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: QuestionRepository::class)]
 class Question
@@ -25,18 +25,16 @@ class Question
     #[Groups(['quiz:read', 'quizResult:read'])]
     private ?string $title = null;
 
-    /**
-     * @var Collection<int, Answer>
-     */
-    #[ORM\OneToMany(targetEntity: Answer::class, mappedBy: 'question')]
+    #[ORM\OneToMany(mappedBy: 'question', targetEntity: Answer::class)]
     #[Groups(['quiz:read', 'quizResult:read'])]
     private Collection $answers;
 
-    public function __construct(?string $title = null)
+    public function __construct(string $title)
     {
         $this->answers = new ArrayCollection();
         $this->title = $title;
     }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -47,7 +45,7 @@ class Question
         return $this->quiz;
     }
 
-    public function setQuiz(?Quiz $quiz): static
+    public function setQuiz(?Quiz $quiz): self
     {
         $this->quiz = $quiz;
 
@@ -59,7 +57,7 @@ class Question
         return $this->title;
     }
 
-    public function setTitle(string $title): static
+    public function setTitle(string $title): self
     {
         $this->title = $title;
 
@@ -74,7 +72,7 @@ class Question
         return $this->answers;
     }
 
-    public function addAnswer(Answer $answer): static
+    public function addAnswer(Answer $answer): self
     {
         if (!$this->answers->contains($answer)) {
             $this->answers->add($answer);
@@ -84,7 +82,7 @@ class Question
         return $this;
     }
 
-    public function removeAnswer(Answer $answer): static
+    public function removeAnswer(Answer $answer): self
     {
         if ($this->answers->removeElement($answer)) {
             // set the owning side to null (unless already changed)

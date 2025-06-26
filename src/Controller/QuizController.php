@@ -9,9 +9,9 @@ use OpenAI\Client;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Annotation\Route;
 
-final class QuizController extends AbstractController
+class QuizController extends AbstractController
 {
     public function __construct(
         private readonly QuizService $quizService,
@@ -45,25 +45,25 @@ final class QuizController extends AbstractController
             ]);
         }
 
-        return $this->render('quiz/show.html.twig', [
+        return $this->render('quiz/index.html.twig', [
             'quiz' => $quiz,
         ]);
     }
 
-    #[Route('/quizzes', name: 'app_quizzes_add', methods: ['POST'])]
+    #[Route('/quizzes', name: 'app_quiz_add', methods: ['POST'])]
     public function add(Client $client, Request $request): Response
     {
         if (!$request->isXmlHttpRequest()) {
             return $this->json([
-                'error' => 'Method not allowed',
+                'error' => 'Method not allowed'
             ]);
         }
 
         $body = json_decode($request->getContent(), true);
 
-        if(!isset($body['content'])) {
+        if (!isset($body['content'])) {
             return $this->json([
-                'error' => 'Missing content',
+                'error' => 'Missing content'
             ]);
         }
 
@@ -74,10 +74,10 @@ final class QuizController extends AbstractController
             'model' => 'gpt-3.5-turbo',
             'messages' => [
                 [
-                    'role' => 'user',
                     'content' => $content,
-                ],
-            ],
+                    'role' => 'user'
+                ]
+            ]
         ])['choices'][0]['message']['content'];
 
         $quizData = json_decode($content, true);
