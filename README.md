@@ -38,7 +38,6 @@ Assurez-vous d'avoir les éléments suivants installés sur votre système :
 - composer install
 - npm install
 - symfony console doctrine:database:create
-- symfony console make:migration
 - symfony console doctrine:migrations:migrate
 - symfony serve -d
 - npm run watch
