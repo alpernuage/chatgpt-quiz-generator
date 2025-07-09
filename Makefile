@@ -45,7 +45,7 @@ vendor: .env.local
 	else \
 		cp .env .env.local; \
 		echo "${GREEN}.env.local file has been created."; \
-		echo "${ORANGE}Modify it according to your needs and continue.${RESET}"; \
+		echo "${ORANGE}Modify it according to your needs and continue with running the same command.${RESET}"; \
 		exit 1; \
 	fi
 
@@ -103,7 +103,7 @@ restart: stop start
 
 .PHONY: kill
 kill: ## ❌ Forces running containers to stop by sending a SIGKILL signal
-	$(DOCKER_COMPOSE) kill
+	docker kill $(docker ps -q)
 
 .PHONY: down
 down: ## ⏹️🧹 Stop containers and clean up resources
@@ -245,5 +245,3 @@ help: ## 📜 Describe targets
 	BEGIN {FS = ":.*?## "}; \
 	/^##[^#]/ {gsub(/^## +/, "", $$0); printf "\n\033[33m%s\033[0m\n", $$0; next}; \
 	/^[^#]/ {printf "\033[32m%-30s\033[0m %s\n", $$1, $$2}'
-
-

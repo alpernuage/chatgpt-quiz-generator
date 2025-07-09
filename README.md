@@ -32,15 +32,7 @@ Assurez-vous d'avoir les éléments suivants installés sur votre système :
 - `git clone git@github.com:alpernuage/chatgpt-quiz-generator.git`
 - `cd chatgpt-quiz-generator`
 - `OPENAI_API_KEY=sk-proj-...` # [Votre clé API OpenAI](https://platform.openai.com/account/api-keys)
-
-[//]: # (- `make install`)
-
-- composer install
-- npm install
-- symfony console doctrine:database:create
-- symfony console doctrine:migrations:migrate
-- symfony serve -d
-- npm run watch
+- `make install`
 
 ## Visuelles
 ![Image](https://github.com/user-attachments/assets/5bbf85b1-5529-4711-bdba-059146d9c3b4)
