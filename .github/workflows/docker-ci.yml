@@ -1,4 +1,4 @@
-name: CI
+name: Docker CI
 
 on:
   push:
@@ -25,6 +25,8 @@ jobs:
       -
         name: Build Docker images
         uses: docker/bake-action@v6
+        env:
+          ENV_FILE: .env.ci
         with:
           pull: true
           load: true
@@ -33,11 +35,25 @@ jobs:
             compose.override.yaml
           set: |
             *.cache-from=type=gha,scope=${{github.ref}}
-            *.cache-from=type=gha,scope=refs/heads/main
+            *.cache-from=type=gha,scope=refs/heads/master
             *.cache-to=type=gha,scope=${{github.ref}},mode=max
       -
         name: Start services
+        env:
+          ENV_FILE: .env.ci
         run: docker compose up --wait --no-build
+      -
+        name: Show Caddy logs
+        if: always()
+        env:
+          ENV_FILE: .env.ci
+        run: docker compose logs caddy
+      -
+        name: Show PHP logs
+        if: always()
+        env:
+          ENV_FILE: .env.ci
+        run: docker compose logs php
       -
         name: Check HTTP reachability
         run: curl -v --fail-with-body http://localhost
