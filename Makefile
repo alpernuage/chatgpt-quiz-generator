@@ -138,7 +138,11 @@ phpstan: ## PHP Static Analysis Tool (https://github.com/phpstan/phpstan)
 ## —— 🔧 PHP CS Fixer ——
 .PHONY: fix-php-cs
 fix-php-cs: ## PhpCsFixer (https://cs.symfony.com/)
-	$(CONTAINER_PHP) vendor/bin/php-cs-fixer fix --verbose
+	vendor/bin/php-cs-fixer fix --verbose
+
+.PHONY: check-php-cs
+check-php-cs:
+	 vendor/bin/php-cs-fixer fix --dry-run --using-cache=yes --cache-file ./.php-cs-fixer.cache --verbose --diff
 
 ## ——📋 APPLICATION ——
 #code-check: apply-php-cs apply-rector apply-phpmd apply-phpstan eslint-format
