@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Service\QuizService;
@@ -13,7 +15,7 @@ class HomeController extends AbstractController
     public function index(QuizService $quizService): Response
     {
         return $this->render('home/index.html.twig', [
-            'quizzes' => $quizService->findLastGeneratedQuizzes()
+            'quizzes' => $quizService->findLastGeneratedQuizzes(),
         ]);
     }
 }

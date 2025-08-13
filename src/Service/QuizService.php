@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Service;
 
 use App\Entity\Answer;
@@ -12,9 +14,8 @@ class QuizService
 {
     public function __construct(
         private EntityManagerInterface $em,
-        private QuizRepository $quizRepo
-    )
-    {
+        private QuizRepository $quizRepo,
+    ) {
     }
 
     public function add(array $quizData): Quiz

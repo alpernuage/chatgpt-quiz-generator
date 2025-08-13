@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Service;
 
 use App\Entity\Quiz;
@@ -9,9 +11,8 @@ use App\Repository\QuizResultRepository;
 class QuizResultService
 {
     public function __construct(
-        private readonly QuizResultRepository $quizResultRepo
-    )
-    {
+        private readonly QuizResultRepository $quizResultRepo,
+    ) {
     }
 
     public function add(Quiz $quiz, array $quizResultData): QuizResult

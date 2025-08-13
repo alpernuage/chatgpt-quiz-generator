@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Entity\Quiz;
@@ -15,9 +17,8 @@ class QuizController extends AbstractController
 {
     public function __construct(
         private readonly QuizService $quizService,
-        private readonly QuizResultService $quizResultService
-    )
-    {
+        private readonly QuizResultService $quizResultService,
+    ) {
     }
 
     #[Route('/quizzes/{id}', name: 'app_quiz_show', methods: ['GET', 'POST'])]
@@ -27,12 +28,12 @@ class QuizController extends AbstractController
             return $this->redirectToRoute('app_home');
         }
 
-        if($request->isXmlHttpRequest() && $request->isMethod(Request::METHOD_POST)) {
+        if ($request->isXmlHttpRequest() && $request->isMethod(Request::METHOD_POST)) {
             $body = json_decode($request->getContent(), true);
 
-            if(!isset($body['quizResult'])) {
+            if (!isset($body['quizResult'])) {
                 return $this->json([
-                    'error' => 'Missing quizResult'
+                    'error' => 'Missing quizResult',
                 ]);
             }
 
@@ -40,8 +41,8 @@ class QuizController extends AbstractController
 
             return $this->json([
                 'quizResult' => [
-                    'id' => $quizResult->getId()
-                ]
+                    'id' => $quizResult->getId(),
+                ],
             ]);
         }
 
@@ -55,7 +56,7 @@ class QuizController extends AbstractController
     {
         if (!$request->isXmlHttpRequest()) {
             return $this->json([
-                'error' => 'Method not allowed'
+                'error' => 'Method not allowed',
             ]);
         }
 
@@ -63,7 +64,7 @@ class QuizController extends AbstractController
 
         if (!isset($body['content'])) {
             return $this->json([
-                'error' => 'Missing content'
+                'error' => 'Missing content',
             ]);
         }
 
@@ -75,9 +76,9 @@ class QuizController extends AbstractController
             'messages' => [
                 [
                     'content' => $content,
-                    'role' => 'user'
-                ]
-            ]
+                    'role' => 'user',
+                ],
+            ],
         ])['choices'][0]['message']['content'];
 
         $quizData = json_decode($content, true);
@@ -86,8 +87,8 @@ class QuizController extends AbstractController
 
         return $this->json([
             'quiz' => [
-                'id' => $quiz->getId()
-            ]
+                'id' => $quiz->getId(),
+            ],
         ]);
     }
 }

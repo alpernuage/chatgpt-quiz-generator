@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Entity\QuizResult;
@@ -17,7 +19,7 @@ class QuizResultController extends AbstractController
         }
 
         return $this->render('quiz_result/index.html.twig', [
-            'quizResult' => $quizResult
+            'quizResult' => $quizResult,
         ]);
     }
 }
