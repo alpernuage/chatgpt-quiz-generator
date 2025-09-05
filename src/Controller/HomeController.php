@@ -15,6 +15,7 @@ class HomeController extends AbstractController
     public function index(QuizService $quizService): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
+
         return $this->render('home/index.html.twig', [
             'quizzes' => $quizService->findLastGeneratedQuizzes(),
         ]);
