@@ -3,6 +3,8 @@
 {% block title %}Créer un quiz{% endblock %}
 
 {% block body %}
+    {%  include 'security/logout.html.twig' %}
+
     <div {{ react_component('QuizList', { quizzes: quizzes|serialize('json', { groups: 'quiz:list' }) }) }}></div>
     <div {{ react_component('CreateQuiz') }}></div>
 {% endblock %}
